@@ -9,6 +9,7 @@ Tools here pertain to public safety data
     - Uses curl to grab entire csv of the [crime incidents data](https://www.opendataphilly.org/dataset/crime-incidents) and puts it into a spatial table.
     - Requires [cURL](https://curl.haxx.se/), [PostgreSQL](https://www.postgresql.org/) (and its [PostGIS](http://www.postgis.net/) extension), and [psycopg2](http://initd.org/psycopg/) to run.
     - $user: python inct_create.py "connection string" "schema (optional)"
+    - NOTE: This is a very large table; there are millions of records. The script will take a few minutes to run. Though it would work for both tasks, this script is really only meant for INITIALLY downloading this data into a database, not updating it.
 
 
 
