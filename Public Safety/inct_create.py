@@ -22,34 +22,22 @@ import csv
 import sys
 from subprocess import call, STDOUT
 
-URL = "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+incidents_" \
-      + "part1_part2&filename=incidents_part1_part2&format=csv&skipfields=cartodb_id"
+URL = "https://phl.carto.com/api/v2/sql?q=SELECT+objectid+AS+OBJECTID,+dc_dist+AS+DISTRICT,+psa+AS+PSA," \
+      "+dispatch_date_time+AS+DATE_TIME_OCCUR,+dc_key+AS+DC_NUMBER,+location_block+AS+LOCATION," \
+      "+ucr_general+AS+UCR,+text_general_code+AS+CRIME_TYPE,+ST_Y(the_geom)+AS+Y,+ST_X(the_geom)+" \
+      "AS+X+FROM+incidents_part1_part2&filename=incidents_part1_part2&format=csv&skipfields=cartodb_id"
 
 FIELDS = {
 	"objectid": "BIGINT",
-	"dc_dist": "TEXT",
+	"district": "TEXT",
 	"psa": "TEXT",
-	"dispatch_date_time": "TIMESTAMP",
-	"dc_key": "BIGINT PRIMARY KEY",
-	"location_block": "TEXT",
-	"ucr_general": "INT",
-	"text_general_code": "TEXT",
-	"lng": "DOUBLE PRECISION",
-	"lat": "DOUBLE PRECISION"
-}
-
-# cleaner fields, used in the database table
-NEW_FIELDS = {
-	"objectid": "OBJECTID",
-	"dc_dist": "DISTRICT",
-	"psa": "PSA",
-	"dispatch_date_time": "DATE_TIME_OCCUR",
-	"dc_key": "DC_NUMBER",
-	"location_block": "LOCATION",
-	"ucr_general": "UCR",
-	"text_general_code": "CRIME_TYPE",
-	"lng": "X",
-	"lat": "Y"
+	"date_time_occur": "TIMESTAMP",
+	"dc_number": "BIGINT PRIMARY KEY",
+	"location": "TEXT",
+	"ucr": "INT",
+	"crime_type": "TEXT",
+	"x": "DOUBLE PRECISION",
+	"y": "DOUBLE PRECISION"
 }
 
 BLANK_VALS = [None, "", " "]
@@ -88,7 +76,7 @@ if __name__ == "__main__":
 		"DROP TABLE IF EXISTS {0};\nCREATE TABLE {0}\n\t(".format(tableName)
 	)
 	for field, fieldType in FIELDS.iteritems():
-		sql += "\n\t{fName} {fType} NOT NULL,".format(fName=NEW_FIELDS[field], fType=fieldType)
+		sql += "\n\t{fieldName} {fieldType} NOT NULL,".format(fieldName=field, fieldType=fieldType)
 	sql = sql[:-1] + "\n);"
 
 	try:
@@ -106,7 +94,7 @@ if __name__ == "__main__":
 			insertSQL = "INSERT INTO {0} (".format(tableName)
 			valueSQL = "VALUES ("
 			for field, fieldType in FIELDS.iteritems():
-				insertSQL += "{}, ".format(NEW_FIELDS[field])
+				insertSQL += "{}, ".format(field)
 				value = row[field]
 
 				if fieldType in ["BIGINT", "INT"] and value in BLANK_VALS:
@@ -133,7 +121,7 @@ if __name__ == "__main__":
 
 	# create the geometry field and calculate it
 	sql = "ALTER TABLE {0} ADD COLUMN geom_3857 geometry;".format(tableName)
-	sql += "\nUPDATE {0} SET geom_3857 = ST_Transform(ST_SetSRID(ST_Point(x, y), 4326), 3857);".format(tableName)
+	sql += "\nUPDATE {0} SET geom_3857 = ST_Transform(ST_SetSRID(ST_Point(X, Y), 4326), 3857);".format(tableName)
 	sql += "\nALTER TABLE {0} DROP COLUMN X, DROP COLUMN Y;".format(tableName)
 
 	try:
