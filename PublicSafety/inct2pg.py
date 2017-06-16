@@ -12,7 +12,6 @@
 	GNU License
 	Code by Connor Hornibrook, 2017
 """
-
 INIT_URL = "https://phl.carto.com/api/v2/sql?q=SELECT+objectid+AS+OBJECTID,+dc_dist+AS+DISTRICT,+psa+AS+PSA," \
            "+dispatch_date_time+AS+DATE_TIME_OCCUR,+dc_key+AS+DC_NUMBER,+location_block+AS+LOCATION," \
            "+ucr_general+AS+UCR,+text_general_code+AS+CRIME_TYPE,+ST_Y(the_geom)+AS+Y,+ST_X(the_geom)+" \
