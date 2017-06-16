@@ -2,7 +2,7 @@
 A repository containing useful scripts that deal with data from [Open Data Philly](https://www.opendataphilly.org/).
 
 ## [PublicSafety](https://github.com/cfh294/OpenDataPhillyTools/tree/master/PublicSafety)
-Tools here pertain to public safety data
+Tools here pertain to public safety data. This can be imported as a module in other python applications or scripts.
 
 * [inct2pg](https://github.com/cfh294/OpenDataPhillyTools/blob/master/PublicSafety/inct2pg.py)
     - Takes a [PostgreSQL connection string](https://wiki.postgresql.org/wiki/Using_psycopg2_with_PostgreSQL#Connect_to_Postgres) and an optional schema name as inputs.
