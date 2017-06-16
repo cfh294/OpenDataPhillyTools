@@ -1,7 +1,7 @@
 # OpenDataPhillyTools
 A repository containing useful scripts that deal with data from [Open Data Philly](https://www.opendataphilly.org/).
 
-## [Public Safety](https://github.com/cfh294/OpenDataPhillyTools/tree/master/PublicSafety)
+## [PublicSafety](https://github.com/cfh294/OpenDataPhillyTools/tree/master/PublicSafety)
 Tools here pertain to public safety data
 
 * [inct2pg](https://github.com/cfh294/OpenDataPhillyTools/blob/master/PublicSafety/inct2pg.py)
