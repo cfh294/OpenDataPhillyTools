@@ -12,12 +12,6 @@
 	GNU License
 	Code by Connor Hornibrook, 2017
 """
-import os
-import psycopg2
-import csv
-import sys
-import re
-from subprocess import call, STDOUT
 
 INIT_URL = "https://phl.carto.com/api/v2/sql?q=SELECT+objectid+AS+OBJECTID,+dc_dist+AS+DISTRICT,+psa+AS+PSA," \
            "+dispatch_date_time+AS+DATE_TIME_OCCUR,+dc_key+AS+DC_NUMBER,+location_block+AS+LOCATION," \
@@ -53,7 +47,9 @@ FIELDS = {
 FIELDS_IN_ORDER = ["objectid", "dc_number", "district", "psa", "location", "date_time_occur", "crime_type", "ucr",
                    "x", "y"]
 
+# this regex validates postgresql schema.table names
 DB_TABLE_REGEX = r"[_a-zA-Z]+([_a-zA-Z]*\d*)*[.][_a-zA-Z]+([_a-zA-Z]*\d*)*"
+
 BLANK_VALS = [None, "", " "]
 
 
@@ -68,11 +64,22 @@ def dateEncoding(date, decode=False):
 			newDate = newDate.replace(old, encoded)
 	return newDate
 
-if __name__ == "__main__":
 
-	print
+def inct2db(argList):
+	""" Called in main, maid separate in order to make the function importable. """
+
+	# do imports inside function to avoid namespace errors
+	import os
+	import psycopg2
+	import csv
+	import sys
+	import re
+	from subprocess import call, STDOUT
+
+	# Looks strange to do it this way, but it was a quick way to move this out of the main method. I
+	# am going more fitting validation soon...
 	# validate and retrieve script arguments
-	numArgs = len(sys.argv)
+	numArgs = len(argList)
 	if numArgs < 3:
 		print "Not enough arguments supplied!"
 		sys.exit()
@@ -80,8 +87,8 @@ if __name__ == "__main__":
 		print "Too many arguments supplied!"
 		sys.exit()
 
-	cnxnString = sys.argv[1]
-	tableName = sys.argv[2]
+	cnxnString = argList[1]
+	tableName = argList[2]
 
 	if re.match(DB_TABLE_REGEX, tableName) is None:
 		print "Invalid PostgreSQL schema.table name format!"
@@ -209,3 +216,8 @@ if __name__ == "__main__":
 	cnxn.commit()
 	cnxn.close()
 	del cursor, cnxn
+
+
+if __name__ == "__main__":
+	import sys
+	inct2db(sys.argv)
