@@ -66,7 +66,7 @@ def dateEncoding(date, decode=False):
 
 
 def inct2db(argList):
-	""" Called in main, maid separate in order to make the function importable. """
+	""" Called in main, made separate in order to make the function importable. """
 
 	# do imports inside function to avoid namespace errors
 	import os
