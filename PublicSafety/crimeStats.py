@@ -23,10 +23,10 @@ def hypergeometric(N, G, n, x):
 
 		Beginning Overall                                End Overall
 		   Date                                           Date / end spike test date
-		    |                               Start spike      |
+		       |                               Start spike      |
 			|                               test date        |
 			|_____________________________________|__________|
-		11/10/2016                            10/10/2017   11/10/2017
+		   11/10/2016                            10/10/2017   11/10/2017
 
 
 	N is the total number of crimes for the overall test period that occurred in the entire city.
