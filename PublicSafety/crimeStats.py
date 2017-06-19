@@ -21,8 +21,8 @@ def hypergeometric(N, G, n, x):
 	be derived from date ranges. Essentially, you define an overall date range, and a date range to test for spikes.
 	This is demonstrated below with example dates with an overall test period of a year:
 
-		Beginning Overall                                End Overall
-		   Date                                           Date / end spike test date
+		   Beginning Overall                                End Overall
+		      Date                                           Date / end spike test date
 		        |                               Start spike      |
 			|                               test date        |
 			|_____________________________________|__________|
