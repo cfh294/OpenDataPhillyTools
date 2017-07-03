@@ -45,9 +45,11 @@ FIELDS = {
 
 FIELDS_IN_ORDER = ["objectid", "dc_number", "district", "psa", "location", "date_time_occur", "crime_type", "ucr",
                    "x", "y"]
+DC_DICT_KEY = "dc_number"
 
 # this regex validates postgresql schema.table names
 DB_TABLE_REGEX = r"[_a-zA-Z]+([_a-zA-Z]*\d*)*[.][_a-zA-Z]+([_a-zA-Z]*\d*)*"
+KEY_ERROR_REGEX = r"[(]\d{12}[)]"
 
 BLANK_VALS = [None, "", " "]
 
@@ -163,7 +165,7 @@ def inct2db(argList):
 			lng, lat = 0.0, 0.0
 			for field in FIELDS_IN_ORDER:
 				fieldType = FIELDS[field]
-				insertSQL += "{}, ".format(field)
+
 				value = row[field]
 
 				if field == "x" and value not in BLANK_VALS:
@@ -183,21 +185,26 @@ def inct2db(argList):
 
 				# quote-ify and escape out apostrophes if needed
 				value = "'{}'".format(value.replace("'", "''")) if fieldType in ["TEXT", "TIMESTAMP"] else value
+				insertSQL += "{}, ".format(field)
 				valueSQL += "{}, ".format(value)
 
-			# add geometry
 			insertSQL, valueSQL = insertSQL[:-2] + ")", valueSQL[:-2] + ")"
 			sql = "{} {};".format(insertSQL, valueSQL)
+
 			try:
 				cursor.execute(sql)
-			except psycopg2.ProgrammingError as p:
-				print "Error with following query:\n\n{}".format(sql)
+			except psycopg2.IntegrityError as ie:
+				print "Duplicate key found:\n\n{}".format(ie)
+			except psycopg2.ProgrammingError:
+				print "Syntax error with following query:\n\n{}".format(sql)
 				sys.exit()
+
 	print "Finished."
 
 	condition = " WHERE date_time_occur > {}".format(
 		dateEncoding(maxDate, decode=True)) if isUpdate else ""
 
+	# add geometry
 	sql = "UPDATE {0} SET geom_3857 = ST_Transform(ST_SetSRID(ST_Point(x, y), 4326), 3857){1};".format(tableName,
 	                                                                                                   condition)
 	try:
