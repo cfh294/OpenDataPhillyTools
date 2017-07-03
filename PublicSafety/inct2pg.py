@@ -6,7 +6,7 @@
 
 	example cmd line:
 
-	$usr: python odp_inct_create.py "dbname=<database_name> host=<server> user=<user> password=<password> port=<port>"
+	$usr: python inct2pg.py "dbname=<database_name> host=<server> user=<user> password=<password> port=<port>"
 		  "schema.table_name"
 
 	GNU License
