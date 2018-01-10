@@ -88,6 +88,7 @@ def inct2db(argList):
 		print "Too many arguments supplied!"
 		sys.exit()
 
+
 	cnxnString = argList[1]
 	tableName = argList[2]
 
@@ -144,7 +145,7 @@ def inct2db(argList):
 			cursor.execute("rollback;")
 			cursor.execute(sql)
 
-		sql = "ALTER TABLE {0} ADD COLUMN geom_3857 geometry;".format(tableName)
+		sql = "ALTER TABLE {0} ADD COLUMN geom geometry;".format(tableName)
 		try:
 			cursor.execute(sql)
 		except psycopg2.InternalError:
@@ -205,8 +206,7 @@ def inct2db(argList):
 		dateEncoding(maxDate, decode=True)) if isUpdate else ""
 
 	# add geometry
-	sql = "UPDATE {0} SET geom_3857 = ST_Transform(ST_SetSRID(ST_Point(x, y), 4326), 3857){1};".format(tableName,
-	                                                                                                   condition)
+	sql = "UPDATE {0} SET geom = ST_SetSRID(ST_Point(x, y), 4326){1};".format(tableName, condition)
 	try:
 		print "Creating geom..."
 		cursor.execute(sql)
