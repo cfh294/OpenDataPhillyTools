@@ -196,6 +196,7 @@ def inct2db(argList):
 				cursor.execute(sql)
 			except psycopg2.IntegrityError as ie:
 				print "Duplicate key found:\n\n{}".format(ie)
+				cnxn.rollback()
 			except psycopg2.ProgrammingError:
 				print "Syntax error with following query:\n\n{}".format(sql)
 				sys.exit()
