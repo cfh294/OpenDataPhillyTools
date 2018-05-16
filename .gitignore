@@ -2,5 +2,6 @@
 .DS_Store
 .idea/
 .git/
+*/__pycache__/
 Thumbs.db
 tests.py

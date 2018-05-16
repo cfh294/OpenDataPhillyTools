@@ -10,7 +10,7 @@ Tools here pertain to public safety data. This can be imported as a module in ot
     - Uses HTTP request to grab csv of the [crime incidents data](https://www.opendataphilly.org/dataset/crime-incidents) and puts it into a spatial table.
     - Requires [PostgreSQL](https://www.postgresql.org/) (and its [PostGIS](http://www.postgis.net/) extension), and [psycopg2](http://initd.org/psycopg/) to run.
     - If input table already exists, the script will update it with the newest incidents.
-    
+
     ```shell
     $user: python inct2pg.py "connection string" "schema" "table"
     ```
