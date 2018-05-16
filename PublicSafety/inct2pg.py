@@ -4,7 +4,7 @@
 
 	command line usage:
 
-	$usr: python inct2pg.py  connection_string  schema  table_name
+	$usr: python3 inct2pg.py  connection_string  schema  table_name
 
 	GNU License
 	Code by Connor Hornibrook, 2017

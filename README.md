@@ -12,6 +12,6 @@ Tools here pertain to public safety data. This can be imported as a module in ot
     - If input table already exists, the script will update it with the newest incidents.
 
     ```shell
-    $user: python inct2pg.py "connection string" "schema" "table"
+    $user: python3 inct2pg.py "connection string" "schema" "table"
     ```
 
