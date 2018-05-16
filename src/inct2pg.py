@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 	inct2pg.py
 	ETL script that loads latest Philadelphia crime incident data into a spatial PostgreSQL table
@@ -13,16 +14,17 @@
 	     Refactored entire program to utilize safer parameterized queries, as well as the argparse
 	     library to simplify the code. The program now uses a helper class called PgHandler to
 	     abstract out some database functionality that may be common among other future programs in
-	     this repository (see OpenDataPhillyTools/classes/handlers.py).
+	     this repository (see common/handlers.py).
 	     The whole repository is now updated to be in Python 3!
 
 """
-import psycopg2
-import csv
-import requests
 import argparse
+import csv
 import sys
-from .. import PgHandler
+
+import psycopg2
+import requests
+from lib import PgHandler
 
 # constants
 DDL_FILE = "sql/crime_incident.ddl"
