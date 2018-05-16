@@ -22,7 +22,7 @@ import csv
 import requests
 import argparse
 import sys
-from classes import PgHandler
+from ..classes import PgHandler
 
 # constants
 DDL_FILE = "sql/crime_incident.ddl"
